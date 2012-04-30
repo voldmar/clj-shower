@@ -84,11 +84,11 @@
         other (map parse-slide-lines other)]
     (html5
       [:head
-       (include-css "/shower/themes/ribbon/styles/screen.css")
+       (include-css "/public/shower/themes/ribbon/styles/screen.css")
        [:title (:title (meta header))]]
       [:body
        (cons header other)
-       (include-js "/shower/scripts/script.js") ])))
+       (include-js "/public/shower/scripts/script.js") ])))
 
 (defn translate-file
   "Translate .shower to .html"
