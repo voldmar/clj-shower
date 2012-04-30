@@ -21,8 +21,8 @@
   (translate (line-seq (BufferedReader. (StringReader. text)))))
 
 (defn -main [port & args]
-  (server/add-middleware wrap-file "static")
-  (server/add-middleware wrap-file-info)
+  ;(server/add-middleware wrap-file "static")
+  ;(server/add-middleware wrap-file-info)
   (server/start (Integer. port)))
 
 
