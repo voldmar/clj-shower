@@ -20,9 +20,9 @@
 (defpage [:post "/"] {:keys [text]}
   (translate (line-seq (BufferedReader. (StringReader. text)))))
 
-(defn -main [& args]
+(defn -main [port & args]
   (server/add-middleware wrap-file "static")
   (server/add-middleware wrap-file-info)
-  (server/start 8080))
+  (server/start (Integer. port)))
 
 
