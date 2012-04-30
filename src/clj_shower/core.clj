@@ -1,7 +1,6 @@
 (ns clj-shower.core
     (:use clojure.tools.cli)
-    (:use clojure.pprint)
-    (:use clojure.string)
+    (:use [clojure.string :only [blank? join]])
     (:use hiccup.page)
     (:use hiccup.element))
 
@@ -73,7 +72,9 @@
         title (first (map :title slide-meta-data))
         attrs {:class classes}
         attrs (if (nil? id) attrs (assoc attrs :id id))]
-    (with-meta [:section attrs (filter not-empty parsed)] {:title title})))
+    (if (true? *parse-as-header*)
+      [:header.caption (filter not-empty parsed)]
+      [:section attrs (filter not-empty parsed)])))
 
 (defn translate
   "Translate lines to .html"
@@ -83,9 +84,11 @@
         other (map parse-slide-lines other)]
     (html5
       [:head
+       (include-css "/shower/themes/ribbon/styles/screen.css")
        [:title (:title (meta header))]]
       [:body
-       (cons header other)])))
+       (cons header other)
+       (include-js "/shower/scripts/script.js") ])))
 
 (defn translate-file
   "Translate .shower to .html"
