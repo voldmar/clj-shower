@@ -1,6 +1,8 @@
 (ns clj-shower.test.core
   (:use [clj-shower.core])
-  (:use [clojure.test]))
+  (:use [clojure.test])
+  (:use [hiccup.page]))
 
-(deftest replace-me ;; FIXME: write
-  (is false "No tests have been written."))
+(deftest simple-ul
+  (is (= (html5 (ul ["* one" "* two" "* three"]))
+         ("<ul><li>one</li><li>two</li><li>three</li></ul>"))))

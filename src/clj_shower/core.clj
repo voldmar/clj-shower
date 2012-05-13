@@ -1,4 +1,5 @@
 (ns clj-shower.core
+    (:use clj-shower.convert)
     (:use clojure.tools.cli)
     (:use [clojure.string :only [blank? join]])
     (:use hiccup.page)
@@ -35,7 +36,7 @@
     (with-meta [] {:id content})))
 
 (defn cover [line]
-  (let [[src alt w h] (rest (re-matches #"cover:\s+(\S+)\s?(\"[^\"]+\")?\s?(w)?\s?(h)?" line))]
+  (let [[src alt w h] (rest (re-matches #"cover:\s+(\S+)\s?(\"[^\"]+\")?(\s+(w))?(\s+(h))?" line))]
     (with-meta (image src alt) {:class (cons "cover" (remove nil? [w h]))})))
 
 (defn shout [line]
@@ -44,6 +45,7 @@
 
 (defn p [line]
   [:p line])
+
 
 (defn collect [key maps]
   (set (flatten (map key maps))))
@@ -57,10 +59,27 @@
     :else (p line)
     ))
 
+(def RULES 
+     [#"shout:\s+(?i)(.*)"
+      #"cover:\s+(\S+)\s?(\"[^\"]+\")?(\s+(w))?(\s+(h))?"
+      #"id:\s+(?i)([a-z0-9_-]+)"
+      #"(#+)\s*(.*)"
+      #"`(.*)"
+      #"(\s+)[-*]\s*(.*)"
+      #"(\s+)\d\.\s*(.*)"
+      ])
+
+(defn partition-by-type [slide-lines]
+  (lazy-seq 
+    (when-let [s (seq slide-lines)]
+      (let [fst (first s)
+
+          ]))))
+
 (defn parse-slide-lines
   "Convert slide lines to slide (in Hiccup markup)"
   [slide-lines]
-  (let [parsed (map parse-line slide-lines)
+  (let [parsed (map parse-line (partition-by  slide-lines))
         slide-meta-data (map meta parsed)
         id (first (map :id slide-meta-data))
         classes (->> (map :class slide-meta-data)
