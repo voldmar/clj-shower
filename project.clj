@@ -6,7 +6,8 @@
                  [hiccup "1.0.0"]
                  [noir "1.3.0-beta3"]]
   :main clj-shower.core
-  :run-aliases {:web clj-shower.web}
+  :run-aliases {:web clj-shower.web
+                :web-example clj-shower.web_example}
   :eval-in :subprocess
   :plugins [[lein-swank "1.4.4"]
             [lein-marginalia "0.7.0"]
