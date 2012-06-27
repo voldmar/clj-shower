@@ -2,6 +2,7 @@
     (:use clojure.java.io)
     (:use ring.middleware.file)
     (:use ring.middleware.file-info)
+    (:use ring.middleware.reload)
     (:use noir.core)
     (:use hiccup.page)
     (:use hiccup.form)
@@ -21,6 +22,7 @@
   (translate (line-seq (BufferedReader. (StringReader. text)))))
 
 (defn -main [port & args]
+  (server/add-middleware wrap-reload '(clj-shower.core clj-shower.web))
   (server/add-middleware wrap-file "public")
   (server/add-middleware wrap-file-info)
   (server/start (Integer. port)))

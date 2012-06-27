@@ -28,10 +28,11 @@
 
 (defn encode [s]
   (-> s
-      (s/replace #"(?<!\\)\*\*([^*]+)\*\*" "<strong>$1</strong>")
+      (s/replace #"(?<!\\)\*\*([^*]+)\*\*" "<b>$1</b>")
       (s/replace #"(?<!\\)__([^_]+)__"  "<strong>$1</strong>")
-      (s/replace #"(?<!\\)\*([^*]+)\*" "<em>$1</em>")
+      (s/replace #"(?<!\\)\*([^*]+)\*" "<i>$1</i>")
       (s/replace #"(?<!\\)_([^_]+)_"  "<em>$1</em>")
+      (s/replace #"(?<!\\)-([^-]+)-"  "<del>$1</del>")
       (s/replace #"\\\*" "*")
       (s/replace #"\\\_" "_")
       ))
