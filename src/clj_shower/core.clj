@@ -1,4 +1,5 @@
 (ns clj-shower.core
+    (:gen-class)
     (:use clojure.pprint)
     (:use clojure.tools.cli)
     (:require [clojure.string :as s])
