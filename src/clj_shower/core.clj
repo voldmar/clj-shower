@@ -151,6 +151,7 @@
     ;(pprint other)
     (html5
       [:head
+       [:meta {:charset "utf-8"}]
        (include-css "/shower/themes/ribbon/styles/screen.css")
        [:title (:title (meta header))]]
       [:body
