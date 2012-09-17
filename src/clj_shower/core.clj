@@ -10,6 +10,9 @@
 
 (def ^:dynamic *parse-as-header* false)
 
+(def ALLOWED-COVER-FLAGS (set (map str (seq "hwmc"))))
+
+
 (defn next-slide [lines]
   (take-while (complement s/blank?) lines))
 
@@ -53,8 +56,11 @@
 (defn id [value]
   (with-meta [] {:id value}))
 
-(defn cover [src alt w h]
-  (with-meta (image (subs src 1 (dec (count src))) alt) {:class (cons "cover" (remove nil? [w h]))}))
+(defn cover [src flags]
+  (let [flags (->> (seq flags)
+                  (map s/trim)
+                  (filter ALLOWED-COVER-FLAGS))]
+    (with-meta (image (subs src 1 (dec (count src)))) {:class (cons "cover" flags)})))
 
 (defn shout [content]
   (with-meta (when-not (empty? content) [:h2 (encode content)]) {:class "shout"})) 
@@ -73,13 +79,13 @@
 
 (def RULES
      [#"shout:\s*(?i)(.*)" shout
-      #"cover:\s*(\S+)\s?(\"[^\"]+\")?(\s+w)?(\s+h)?" cover
+      #"cover:\s*(\S+|\"[^\"]\")(.*)" cover
       #"id:\s*(?i)([a-z0-9_-]+)" id
       #"(#+)\s*(.*)" h
       #"` (.*)" code
       #"> (.*)" blockquote
-      #"(\s*)[-*]\s*(.*)" ul
-      #"(\s*)\d\.\s*(.*)" ol
+      #"(\s*)[-*]\s+(.*)" ul
+      #"(\s*)\d\.\s+(.*)" ol
       ])
 
 (defn parse-line [line rules]
@@ -173,7 +179,6 @@
                                    ["--html" ".html output"])
         {:keys [shower html]} options
         converted (translate-file shower)]
-    ;(println converted)
     (with-open [wrtr (clojure.java.io/writer html)]
                (.write wrtr converted))))
 
