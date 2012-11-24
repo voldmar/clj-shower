@@ -11,7 +11,7 @@
 (def ^:dynamic *parse-as-header* false)
 
 (def ALLOWED-COVER-FLAGS (set (map str (seq "hwmc"))))
-
+(def ALLOWED-PLACE-FLAGS (set (map str (seq "trblm"))))
 
 (defn next-slide [lines]
   (take-while (complement s/blank?) lines))
@@ -62,6 +62,13 @@
                   (filter ALLOWED-COVER-FLAGS))]
     (with-meta (image (subs src 1 (dec (count src)))) {:class (cons "cover" flags)})))
 
+(defn place [src flags]
+  (let [flags (->> (seq flags)
+                  (map s/trim)
+                  (filter ALLOWED-PLACE-FLAGS))
+        attr {:class (s/join " " (cons "place" flags))}]
+    (with-meta (image attr (subs src 1 (dec (count src)))) {:class "cover"})))
+
 (defn shout [content]
   (with-meta (when-not (empty? content) [:h2 (encode content)]) {:class "shout"})) 
 
@@ -80,6 +87,7 @@
 (def RULES
      [#"shout:\s*(?i)(.*)" shout
       #"cover:\s*(\S+|\"[^\"]\")(.*)" cover
+      #"place:\s*(\S+|\"[^\"]\")(.*)" place
       #"id:\s*(?i)([a-z0-9_-]+)" id
       #"(#+)\s*(.*)" h
       #"` (.*)" code
