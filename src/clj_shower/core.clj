@@ -153,7 +153,7 @@
         attrs (if (nil? id) attrs (assoc attrs :id id))]
     (if (true? *parse-as-header*)
       (with-meta (into [:header.caption] (remove empty? converted)) {:title title})
-      (into [:section attrs] (remove empty? converted)))))
+      (into [:section attrs] [[:div (remove empty? converted)]]))))
 
 (defn translate
   "Translate lines to .html"
