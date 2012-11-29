@@ -1,13 +1,15 @@
 # clj-shower
 
-FIXME: write description
+Simple .shower to .html converter
 
 ## Usage
 
-FIXME: write
+Download latest .jar from https://github.com/voldmar/clj-shower/downloads
+
+java -jar clj-shower-1.0.3-standalone.jar --shower input.shower --html output.html
 
 ## License
 
-Copyright (C) 2012 FIXME
+Copyright (C) 2012 Vladimir Epifanov
 
 Distributed under the Eclipse Public License, the same as Clojure.
