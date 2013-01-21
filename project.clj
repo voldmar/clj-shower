@@ -1,4 +1,4 @@
-(defproject clj-shower "1.0.3"
+(defproject clj-shower "1.0.4"
   :description "Quick .shower to .html converter"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.cli "0.2.2"]

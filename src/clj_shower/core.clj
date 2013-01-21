@@ -168,9 +168,9 @@
        [:meta {:charset "utf-8"}]
        (include-css "/shower/themes/ribbon/styles/screen.css")
        [:title (:title (meta header))]]
-      [:body
+      [:body {:class "list"}
        (cons header other)
-       (include-js "/shower/scripts/script.js") ])
+       (include-js "/shower/shower.min.js") ])
     ))
 
 (defn translate-file
